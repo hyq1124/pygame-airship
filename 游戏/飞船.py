@@ -1,11 +1,17 @@
 import pygame
-
+from random import randint
 class Game():
+    # 初始化
+    pygame.init()
+
     # 创建窗口
     window = pygame.display.set_mode((622, 350))
 
     # 设置窗口名字
     pygame.display.set_caption("飞船")
+
+    # 背景色
+    # window.fill([255, 255, 255])
 
     # 加载图片
     background = pygame.image.load("bg.jpg").convert()
@@ -24,24 +30,30 @@ class AirShip():
         self.x = 0
         self.y = 170
 
+    # 向上移动
     def move_up(self):
         if airship.y > 0:
             airship.y -= 0.1
 
+    # 向下移动
     def move_down(self):
         if self.y < 315:
             self.y += 0.1
 
+    # 向左移动
     def move_left(self):
         if self.x > 0:
             self.x -= 0.1
 
+    # 向右移动
     def move_right(self):
         if self.x < 570:
             self.x += 0.1
 
     @staticmethod
     def move():
+        # 持续移动
+
         # 判断按键状态
         key_pressed = pygame.key.get_pressed()
 
@@ -55,10 +67,21 @@ class AirShip():
             airship.move_right()
 
 
+class Bown():
+    def __init__(self):
+        self.x = 700
+        self.y = randint(0, 350)
+
+    def createbown(self):
+        pygame.draw.circle(Game.background, [randint(0, 256), randint(0, 256), randint(0, 256)], [self.x, self.y], 15)
+
+    # circle(Surface, color, pos, radius, width=0)
+
 if __name__ == '__main__':
     # 创建对象
     g = Game()
     airship = AirShip()
+
     while True:
         # 添加背景图
         g.window.blit(g.background, (0, 0))
@@ -66,7 +89,6 @@ if __name__ == '__main__':
         g.window.blit(g.airship, (airship.x, airship.y))
         # 移动飞船
         airship.move()
-
 
         # 创建事件
         walk = pygame.event.get()
@@ -100,3 +122,6 @@ if __name__ == '__main__':
 
         # 刷新
         pygame.display.update()
+        # pygame.display.flip()
+        # 延时
+        # pygame.time.delay()
