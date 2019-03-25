@@ -1,5 +1,6 @@
 import pygame
 from random import randint
+import time
 
 
 class Game():
@@ -105,10 +106,21 @@ if __name__ == '__main__':
     g = Game()
     airship = AirShip()
     skl = []
-    for i in range(5):
+    for i in range(10):
         sk = SkierClass()
         skl.append(sk)
+    
+    # 出现障碍物数量
+    r = 5
+    # 计时器
     sc = 0
+    # 辅助控制计时器
+    a = 50
+    # 等级
+    level = 0
+
+    # 控制速度
+    sleep_time = 0.01
     while True:
         # 添加背景图
         g.window.blit(g.background, (0, 0))
@@ -118,22 +130,30 @@ if __name__ == '__main__':
         # 移动飞船
         airship.move()
         # 移动障碍物
-        for j in range(5):
+        for j in range(r):
             g.window.blit(skl[j].image, skl[j].rect)
             skl[j].move()
 
         # 障碍物循环出现
-        for k in range(5):
+        for k in range(r):
             if skl[k].rect.left < -randint(50, 200):
                 skl[k].rect.left, skl[k].rect.top = [Game.background.get_width() + randint(50, 1000), randint(0, Game.background.get_height() - 50) ]
 
-        # 调整障碍物速度
+        # 调整速度等级
+        time.sleep(0.0005)
         sc += 1
-
-        if sc >= 500:
-            for l in range(5):
-                skl[l].speed[0] -= 1
-            sc = 0
+        # 保证sleep函数不会出错
+        if sleep_time > 0:
+            time.sleep(sleep_time)
+            # 升级速度
+            if sc >= a:
+                sleep_time -= 0.0002
+                a += a/10
+                sc = 0
+                level += 1
+                
+        # 根据等级增加障碍物数量
+        r = 5 + (level // 10)
 
         # 创建事件
         walk = pygame.event.get()
@@ -154,4 +174,5 @@ if __name__ == '__main__':
         pygame.display.update()
         # pygame.display.flip()
         # 延时
-        pygame.time.delay(10)
+        # pygame.time.delay(10)
+
