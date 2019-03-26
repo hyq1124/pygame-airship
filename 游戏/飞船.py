@@ -110,6 +110,11 @@ if __name__ == '__main__':
         sk = SkierClass()
         skl.append(sk)
     
+    # # 组
+    # group = pygame.sprite.Group()
+    # for m in range(10):
+    #     group.add(skl[m])
+    
     # 出现障碍物数量
     r = 5
     # 计时器
@@ -139,6 +144,10 @@ if __name__ == '__main__':
             if skl[k].rect.left < -randint(50, 200):
                 skl[k].rect.left, skl[k].rect.top = [Game.background.get_width() + randint(50, 1000), randint(0, Game.background.get_height() - 50) ]
 
+        # 碰撞检测
+        # 一个精灵和一个组中所有精灵的碰撞
+        # pygame.sprite.spritecollide()                
+                
         # 调整速度等级
         time.sleep(0.0005)
         sc += 1
